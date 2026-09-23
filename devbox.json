@@ -1,0 +1,42 @@
+{
+  "$schema": "https://raw.githubusercontent.com/jetify-com/devbox/0.16.0/.schema/devbox.schema.json",
+  "name": "java-devbox-test1",
+  "description": "Java develpment on any os. devbox installs everything, so this works the same on Linux, macOS and Windows (WSL2).",
+
+  "packages": [
+    // Java 21 (Eclipse Temurin)
+    "temurin-bin@21",
+    // Spring Boot CLI
+    "spring-boot-cli",
+    // Clients
+    "curl",
+    "postman",
+
+    // database
+    "postgresql@17",
+    "dbeaver-bin",
+
+    // nodejs
+    "nodejs@22"
+  ],
+
+  "env": {
+    // Points JAVA_HOME at the JDK devbox just installed
+    "JAVA_HOME": "$DEVBOX_PACKAGES_DIR",
+
+    "PGUSER": "postgres",
+    "PGPORT": "5432",
+    "PGDATABASE": "booleandb"
+  },
+  "shell": {
+    "init_hook": [
+      "test -f \"$PGDATA/PG_VERSION\" || initdb --username=$PGUSER --auth=trust --encoding=UTF8 --locale=C",
+
+      "java --version"
+    ],
+    "scripts": {
+      "db-shell": "psql",
+      "db-reset": "test -n \"$PGDATA\" && rm -rf \"$PGDATA\" && echo 'Database deleted. Run: devbox services up'"
+    }
+  }
+}

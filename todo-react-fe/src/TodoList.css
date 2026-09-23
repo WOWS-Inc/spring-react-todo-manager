@@ -1,0 +1,23 @@
+.todo-list {
+
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.todo-list .todo-item {
+
+    width: 400px;
+    margin: auto;
+    border-radius: 10px;
+    padding: 1rem 1.5rem;
+}
+
+.todo-list .todo-todo {
+
+    background-color: rgb(114, 19, 19);
+}
+.todo-list .todo-completed {
+
+    background-color: rgb(26, 142, 26)
+}
