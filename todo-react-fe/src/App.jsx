@@ -1,53 +1,57 @@
-import { useEffect, useState } from "react"
+import { Routes, Route, Link, useNavigate } from "react-router-dom";
 
-import TodoList from "./TodoList"
+import "./App.css"
+
+import TodoManager from "./TodoManager.jsx"
+import UserManager from "./UserManager.jsx"
+import SingleUserManager from "./SingleUserManager.jsx";
 
 export default function App() {
 
-  const [fetchCounter, setFetchCounter] = useState(0)
-  const [todos, setTodos] = useState([])
-  const [todoUpdate, setTodoUpdate] = useState(-1)
+    const navigate = useNavigate();
 
-  const fetchCounterInc = () => setFetchCounter(counter => counter + 1)
+    return (
+        <>
+            <h1>Todo Application</h1>
+            <div className="linker">
+                <button
+                    onClick={() => navigate(-1)}
+                >BACK</button>
+                <button
+                    onClick={() => navigate(+1)}
+                >FORWARD</button>
+                -
+                <Link
+                    to="/"
+                    >
+                    HOME
+                </Link>
+                <Link
+                    to="/todos"
+                    >
+                    TODOs
+                </Link>
+                <Link
+                    to="/users"
+                    >
+                    USERs
+                </Link>
+            </div>
+            <Routes>
+                <Route 
+                    path="/todos"
+                    element={<TodoManager />}
+                />
+                <Route 
+                    path="/users"
+                    element={<UserManager />}
+                />
+                <Route 
+                    path="/users/:id"
+                    element={<SingleUserManager />}
+                />
+            </Routes>
 
-  useEffect(() => {
-
-    setInterval(fetchTodoUpdatedAt, 1000)
-  })
-
-  useEffect(() => { fetchTodos() }, [todoUpdate])
-
-  const fetchTodoUpdatedAt = () => {
-
-    fetch('http://localhost:4000/api/todos/udpate')
-      .then(res => res.json())
-      .then(setTodoUpdate)
-  }
-  const fetchTodos = () => {
-
-    fetch('http://localhost:4000/api/todos')
-      .then(res => res.json())
-      .then(res => {
-        
-        fetchCounterInc()
-        setTodos(res)
-      })
-  }
-  const swapCompletedState = (todo) => {
-
-    fetch(`http://localhost:4000/api/todos/${todo.id}/${!todo.completed}`, {method: 'PUT'})
-      .then(res => res.json())
-      .then(res => {
-
-        setTodos(prev => prev.map(preTodo => preTodo.id === todo.id ? res : preTodo))
-      })
-  }
-
-  return (
-    <>
-      <h1>Todo Manager</h1>
-      Fetch count: {fetchCounter}
-      <TodoList todos={todos} onClick={swapCompletedState} />
-    </>
-  )
+        </>
+    )
 }

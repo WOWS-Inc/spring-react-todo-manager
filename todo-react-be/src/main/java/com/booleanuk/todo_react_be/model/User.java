@@ -3,6 +3,7 @@ package com.booleanuk.todo_react_be.model;
 import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -34,4 +35,10 @@ public class User {
     @JsonIgnore
     @OneToMany(mappedBy = "user")
     private List<Todo> todos;
+
+    @JsonProperty("todoCount")
+    public int getTodoCount() {
+
+        return todos == null ? 0 : todos.size();
+    }
 }

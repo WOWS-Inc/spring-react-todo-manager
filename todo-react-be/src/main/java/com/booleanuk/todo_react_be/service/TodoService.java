@@ -7,6 +7,7 @@ import java.util.OptionalLong;
 import org.springframework.stereotype.Service;
 
 import com.booleanuk.todo_react_be.model.Todo;
+import com.booleanuk.todo_react_be.model.User;
 import com.booleanuk.todo_react_be.repo.TodoRepo;
 
 @Service
@@ -58,5 +59,10 @@ public class TodoService {
                 maxUpdatedAt = todo.getUpdatedAt();
 
         return Optional.of(maxUpdatedAt);
+    }
+
+    public List<Todo> getTodoListByUser(User user) {
+
+        return todoRepo.findByUser(user);
     }
 }
